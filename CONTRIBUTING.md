@@ -14,6 +14,12 @@ Avant proposition, exécuter les contrôles disponibles et vérifier `git diff -
 
 Les règles de détection, fixtures et scénarios de laboratoire doivent être sûrs, minimaux, anonymisés et revus. Aucune fonctionnalité permettant l'exécution distante arbitraire n'est acceptée.
 
+## SAST, SCA et dépendances
+
+SAST analyse le code PurpleWatch ; SCA analyse les dépendances tierces. Exécuter les contrôles applicables au composant modifié, sans contourner une security gate. Toute nouvelle dépendance exige revue de provenance, lockfile versionné et validation de vulnérabilités. Les exceptions temporaires exigent une issue `PW-xxx`, un propriétaire, une justification et une date d'expiration.
+
+Les détails sont définis dans le [baseline SAST/SCA](docs/security/sast-sca-baseline.md) et la [politique supply-chain](docs/security/supply-chain-security-policy.md).
+
 ## Revue
 
 `main` est destinée à être protégée : PR obligatoire, contrôles CI requis, revue humaine et squash merge. Aucun push direct vers `main`.
