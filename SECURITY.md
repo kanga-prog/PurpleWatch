@@ -21,3 +21,9 @@ Le mainteneur accuse réception, évalue le risque, coordonne la correction, pui
 Les contrôles et seuils sont décrits dans le [baseline SAST/SCA](docs/security/sast-sca-baseline.md) et la [politique supply-chain](docs/security/supply-chain-security-policy.md). Les vulnérabilités suivent le processus de remédiation documenté dans le runbook. Les exceptions temporaires exigent une justification, un propriétaire, une issue `PW-xxx`, des contrôles compensatoires et une date d'expiration.
 
 Le signalement privé de vulnérabilités reste distinct des issues normales d'ingénierie et ne doit jamais inclure de secret ou de détail exploitable dans un espace public.
+
+## Signalement et exposition de secrets
+
+Les défauts d'ingénierie non sensibles utilisent les issues normales. Une vulnérabilité suspectée ou une exposition de secret ne doit jamais être publiée dans une issue. Le signalement privé GitHub n'est pas encore configuré pour ce dépôt ; l'établissement d'un canal privé est un suivi de gouvernance. En attendant, demandez un canal privé au mainteneur sans transmettre de détail sensible.
+
+Consulter le [baseline secret scanning](docs/security/secret-scanning-baseline.md) et le [runbook sécurité](docs/runbooks/repository-security.md). Une exposition de secret suit immédiatement la révocation et la rotation, pas seulement la suppression du fichier.
