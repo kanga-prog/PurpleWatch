@@ -16,6 +16,17 @@
 4. Évaluer l'historique Git et les systèmes touchés ; supprimer la valeur de la version courante sans présumer que l'historique est sain.
 5. Documenter la cause et les contrôles préventifs ajoutés.
 
+## Traitement des findings sécurité
+
+Processus commun : **finding → classify → verify → remediate or create exception → validate → evidence → close**.
+
+- **Finding SAST :** confirmer le contexte, l'impact et la confiance ; corriger le code ou créer une exception temporaire conforme au baseline SAST/SCA.
+- **Vulnérabilité de dépendance :** identifier la dépendance directe ou transitive, évaluer atteignabilité/exposition, mettre à jour, remplacer ou appliquer un contrôle compensatoire temporaire.
+- **Exposition de secret :** suivre immédiatement la procédure de révocation ci-dessus ; ne pas attendre la triage normale.
+- **Mise à jour GitHub Actions :** vérifier l'origine, le SHA épinglé, le diff de version et les contrôles CI avant merge.
+
+Chaque résolution ou exception conserve une preuve de validation et une issue `PW-xxx`. Aucune suppression globale et permanente d'un finding n'est admise.
+
 ## Politique des fixtures
 
 Les fixtures sous `tests/fixtures/` sont transversales, petites, synthétiques, anonymisées et non exécutables. Elles ne contiennent ni événement réel, ni PII, ni credential, ni payload offensif dangereux.

@@ -15,3 +15,9 @@ Les simulations et les données de test doivent être explicitement autorisées,
 ## Réponse
 
 Le mainteneur accuse réception, évalue le risque, coordonne la correction, puis documente la résolution sans exposer les éléments sensibles. Tout secret suspecté exposé est considéré compromis et doit être révoqué.
+
+## SAST, SCA et remédiation
+
+Les contrôles et seuils sont décrits dans le [baseline SAST/SCA](docs/security/sast-sca-baseline.md) et la [politique supply-chain](docs/security/supply-chain-security-policy.md). Les vulnérabilités suivent le processus de remédiation documenté dans le runbook. Les exceptions temporaires exigent une justification, un propriétaire, une issue `PW-xxx`, des contrôles compensatoires et une date d'expiration.
+
+Le signalement privé de vulnérabilités reste distinct des issues normales d'ingénierie et ne doit jamais inclure de secret ou de détail exploitable dans un espace public.
