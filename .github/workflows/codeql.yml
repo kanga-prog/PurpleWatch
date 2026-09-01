@@ -74,3 +74,21 @@ jobs:
         uses: github/codeql-action/analyze@5ba2889ada762081db2c4f32a729827dce632c7b  # v3
         with:
           category: /language:javascript-typescript
+  codeql-gate:
+    name: CodeQL gate
+    needs: [source-presence, analyze-python, analyze-javascript-typescript]
+    if: ${{ always() }}
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Enforce applicable CodeQL results
+        env:
+          SOURCE_RESULT: ${{ needs.source-presence.result }}
+          PYTHON_RESULT: ${{ needs.analyze-python.result }}
+          JAVASCRIPT_TYPESCRIPT_RESULT: ${{ needs.analyze-javascript-typescript.result }}
+        run: |
+          for result in "$SOURCE_RESULT" "$PYTHON_RESULT" "$JAVASCRIPT_TYPESCRIPT_RESULT"; do
+            if [[ "$result" == "failure" || "$result" == "cancelled" ]]; then
+              echo "An applicable CodeQL job did not succeed: $result" >&2
+              exit 1
+            fi
+          done
