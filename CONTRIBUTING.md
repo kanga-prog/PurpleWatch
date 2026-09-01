@@ -20,6 +20,12 @@ SAST analyse le code PurpleWatch ; SCA analyse les dépendances tierces. Exécut
 
 Les détails sont définis dans le [baseline SAST/SCA](docs/security/sast-sca-baseline.md) et la [politique supply-chain](docs/security/supply-chain-security-policy.md).
 
+## Secret scanning
+
+Avant commit et push, exécuter `gitleaks dir . --redact`, `bash scripts/validate-repository.sh` et `git diff --check`. `.gitignore` réduit les erreurs, mais n'est pas une frontière de sécurité : un fichier ignoré peut être ajouté explicitement à Git. Ne contournez jamais un finding sans investigation. Tout secret authentique poussé doit être révoqué et remplacé, même s'il est ensuite supprimé du fichier.
+
+Voir le [baseline secret scanning](docs/security/secret-scanning-baseline.md) et le [runbook sécurité](docs/runbooks/repository-security.md).
+
 ## Revue
 
 `main` est destinée à être protégée : PR obligatoire, contrôles CI requis, revue humaine et squash merge. Aucun push direct vers `main`.

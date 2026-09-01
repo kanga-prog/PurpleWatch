@@ -10,11 +10,18 @@
 
 ## Réponse à une exposition de secret
 
-1. Arrêter la diffusion sans republier la valeur.
-2. Révoquer/faire tourner immédiatement le secret : il est considéré compromis.
-3. Prévenir le mainteneur par canal privé et ouvrir un suivi privé.
-4. Évaluer l'historique Git et les systèmes touchés ; supprimer la valeur de la version courante sans présumer que l'historique est sain.
-5. Documenter la cause et les contrôles préventifs ajoutés.
+Cycle obligatoire : **stop use → revoke → rotate → assess exposure → identify consumers → replace safely → remove active value → scan → document non-secret evidence → close**.
+
+| Niveau | Action immédiate | Git et exposition | Preuve, validation et clôture |
+|---|---|---|---|
+| A — working tree | Arrêter l'usage et retirer la valeur sans la recopier. | Vérifier si le secret a été partagé avec un processus, terminal, log ou outil externe. | Scanner ; clôturer si aucune exposition confirmée ou après rotation nécessaire. |
+| B — staged | Retirer du stage et arrêter l'usage. | Vérifier index, diff et tout outil ayant reçu le contenu. | Scanner ; documenter la décision de révocation/rotation. |
+| C — local commit | Considérer le secret sensible ; révoquer/rotate si authentique. | Amender ou réécrire localement avant publication lorsque c'est sûr. | Vérifier l'historique local et les consommateurs ; conserver une preuve non secrète. |
+| D — remote branch / PR | Révoquer et rotate avant tout nettoyage. | Évaluer branche, PR, caches, clones, forks et logs de CI. | Supprimer la valeur active, scanner, documenter exposition et remplacements. |
+| E — main | Révoquer et rotate immédiatement. | Évaluer releases, déploiements, clones, forks, caches et consommateurs. | Incident privé, validation de remédiation, décision documentée sur l'historique. |
+| F — public history | Traiter comme compromis confirmé. | Révoquer/rotate avant d'évaluer réécriture, invalidation de caches ou avis aux consommateurs. | Conserver chronologie et preuves sans valeur secrète ; clôturer après validation. |
+
+La suppression d'un fichier ne révoque pas un secret. La réécriture d'historique est une décision délibérée de réponse à incident, jamais un réflexe automatique : elle ne retire pas les copies, forks, caches ni journaux externes.
 
 ## Traitement des findings sécurité
 
