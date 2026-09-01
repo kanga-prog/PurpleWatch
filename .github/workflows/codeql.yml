@@ -53,7 +53,7 @@ jobs:
           build-mode: none
           config-file: ./.github/codeql/codeql-config.yml
       - name: Analyze
-        uses: github/codeql-action/analyze@5ba2889ada762081db2c4f32a729827dce632c7b  # v3
+        uses: github/codeql-action/analyze@6f5948dfacef28e207b48d0905cf90c03365536d  # v3
         with:
           category: /language:python
   analyze-javascript-typescript:
@@ -71,7 +71,7 @@ jobs:
           build-mode: none
           config-file: ./.github/codeql/codeql-config.yml
       - name: Analyze
-        uses: github/codeql-action/analyze@5ba2889ada762081db2c4f32a729827dce632c7b  # v3
+        uses: github/codeql-action/analyze@6f5948dfacef28e207b48d0905cf90c03365536d  # v3
         with:
           category: /language:javascript-typescript
   codeql-gate:
