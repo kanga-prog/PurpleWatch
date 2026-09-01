@@ -1,0 +1,73 @@
+# Secrets et configuration locale
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+secrets/
+credentials/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Node
+node_modules/
+dist/
+coverage/
+.vite/
+npm-debug.log*
+
+# Runtime, logs et données
+*.log
+logs/
+data/
+*.db
+*.sqlite
+*.sqlite3
+*.sql.gz
+*.dump
+*.dmp
+*.pcap
+*.pcapng
+
+# Infrastructure et laboratoire
+.docker/
+docker-data/
+*.vmdk
+*.vdi
+*.vhd
+*.vhdx
+*.ova
+*.ovf
+*.iso
+*.qcow2
+*.vmem
+*.raw
+
+# Artefacts dangereux ou volumineux
+*.exe
+*.dll
+*.msi
+*.bin
+*.elf
+*.zip
+*.7z
+*.rar
+
+# Éditeurs et OS
+.DS_Store
+.idea/
+.vscode/
+*~

@@ -1,0 +1,8 @@
+---
+name: PurpleWatch CodeQL configuration
+disable-default-queries: false
+queries:
+  - uses: security-extended
+paths-ignore:
+  - docs
+  - tests/fixtures

@@ -1,0 +1,40 @@
+---
+name: Day-1 repository checks
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  repository-policy:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+      - name: Install YAML validator
+        run: python3 -m pip install --disable-pip-version-check yamllint==1.33.0
+      - name: Validate Markdown, YAML and repository policy
+        run: bash scripts/validate-repository.sh
+      - name: ShellCheck repository scripts
+        run: |
+          if git ls-files 'scripts/*.sh' | grep -q .; then
+            git ls-files -z 'scripts/*.sh' | xargs -0 -r shellcheck
+          fi
+      - name: Install Actionlint
+        run: go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.8
+      - name: Lint GitHub Actions workflows
+        run: |
+          go_bin="$(go env GOPATH)/bin"
+          "$go_bin/actionlint"
+      - name: Install Gitleaks
+        run: go install github.com/gitleaks/gitleaks/v8@v8.30.0
+      - name: Scan tracked content for secrets
+        run: |
+          go_bin="$(go env GOPATH)/bin"
+          "$go_bin/gitleaks" git --redact --exit-code 1
