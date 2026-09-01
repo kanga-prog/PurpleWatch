@@ -33,7 +33,7 @@ jobs:
           go_bin="$(go env GOPATH)/bin"
           "$go_bin/actionlint"
       - name: Install Gitleaks
-        run: go install github.com/gitleaks/gitleaks/v8@v8.30.0
+        run: go install github.com/zricethezav/gitleaks/v8@v8.30.0
       - name: Scan tracked content for secrets
         run: |
           go_bin="$(go env GOPATH)/bin"

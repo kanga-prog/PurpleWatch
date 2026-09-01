@@ -11,7 +11,7 @@ mapfile -t repository_files < <(
 
 for file in "${repository_files[@]}"; do
   [[ "$file" == *.md ]] || continue
-  if ! rg -q '^# ' "$file"; then
+  if ! grep -q '^# ' "$file"; then
     echo "Markdown file lacks a level-one heading: $file" >&2
     exit 1
   fi
