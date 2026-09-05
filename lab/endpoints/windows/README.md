@@ -38,10 +38,20 @@ No public RDP exposure or router port forwarding is permitted.
 
 Secrets and authentication material must never be committed.
 
+## Instrumentation
+
+PW-204 deployed and validated Sysmon.
+
+PW-205 deployed the Wazuh Agent and enabled collection of the Sysmon Operational event channel.
+
+Related documentation:
+
+- [Sysmon deployment](../../../docs/runbooks/sysmon-deployment.md)
+- [PW-204 evidence](../../../docs/evidence/PW-204.md)
+- [Wazuh Agent deployment](../../../docs/runbooks/wazuh-agent-deployment.md)
+- [PW-205 evidence](../../../docs/evidence/PW-205.md)
+- [Wazuh Agent configuration](wazuh-agent/README.md)
+
 ## Next
 
-PW-204 adds Sysmon instrumentation.
-
-PW-205 installs the Wazuh Agent.
-
-PW-206 validates the complete telemetry path.
+PW-206 validates the complete telemetry path from Sysmon to the Wazuh Manager.
