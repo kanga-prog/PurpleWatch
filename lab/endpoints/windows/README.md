@@ -52,6 +52,17 @@ Related documentation:
 - [PW-205 evidence](../../../docs/evidence/PW-205.md)
 - [Wazuh Agent configuration](wazuh-agent/README.md)
 
+## End-to-end validation
+
+PW-206 validated the complete telemetry path:
+
+`Windows → Sysmon → Wazuh Agent → Wazuh Manager`
+
+Related documentation:
+
+- [PW-206 evidence](../../../docs/evidence/PW-206.md)
+- [PW-206 validation runbook](../../../docs/runbooks/e2e-telemetry-validation.md)
+
 ## Next
 
-PW-206 validates the complete telemetry path from Sysmon to the Wazuh Manager.
+PW-3xx introduces controlled MITRE ATT&CK technique execution and validation.
