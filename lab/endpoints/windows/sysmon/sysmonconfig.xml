@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Sysmon schemaversion="4.91">
+  <HashAlgorithms>SHA256</HashAlgorithms>
+
+  <EventFiltering>
+    <!-- Event ID 1: capture all process creation events. -->
+    <ProcessCreate onmatch="exclude" />
+
+    <!-- Event ID 3: capture all network connection events. -->
+    <NetworkConnect onmatch="exclude" />
+  </EventFiltering>
+</Sysmon>
