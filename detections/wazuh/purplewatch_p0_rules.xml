@@ -1,0 +1,50 @@
+<group name="purplewatch,windows,sysmon,">
+
+  <!-- PW-401 / T1082 -->
+  <rule id="100100" level="6">
+    <if_group>sysmon_event1</if_group>
+    <field name="win.eventdata.image" type="pcre2">(?i)\\systeminfo\.exe$</field>
+    <description>PurpleWatch: System Information Discovery via systeminfo.exe</description>
+    <mitre>
+      <id>T1082</id>
+    </mitre>
+    <group>purplewatch_p0,discovery,</group>
+  </rule>
+
+  <!-- PW-401 / T1057 -->
+  <rule id="100101" level="6">
+    <if_group>sysmon_event1</if_group>
+    <field name="win.eventdata.image" type="pcre2">(?i)\\tasklist\.exe$</field>
+    <description>PurpleWatch: Process Discovery via tasklist.exe</description>
+    <mitre>
+      <id>T1057</id>
+    </mitre>
+    <group>purplewatch_p0,discovery,</group>
+  </rule>
+
+  <!-- PW-401 / T1087.001 -->
+  <rule id="100102" level="6">
+    <if_group>sysmon_event1</if_group>
+    <field name="win.eventdata.image" type="pcre2">(?i)\\net1?\.exe$</field>
+    <field name="win.eventdata.commandLine" type="pcre2">(?i)(^|\s)user(\s|$)</field>
+    <field name="win.eventdata.currentDirectory" type="pcre2" negate="yes">(?i)\\ossec-agent\\$</field>
+    <description>PurpleWatch: Local Account Discovery via net user</description>
+    <mitre>
+      <id>T1087.001</id>
+    </mitre>
+    <group>purplewatch_p0,discovery,</group>
+  </rule>
+
+  <!-- PW-401 / T1016 -->
+  <rule id="100103" level="6">
+    <if_group>sysmon_event1</if_group>
+    <field name="win.eventdata.image" type="pcre2">(?i)\\(ipconfig|netsh|arp|nbtstat|net|net1)\.exe$</field>
+    <field name="win.eventdata.commandLine" type="pcre2">(?i)(/all|interface\s+show\s+interface|\s-a(\s|$)|\s-n(\s|$)|\sconfig(\s|$))</field>
+    <description>PurpleWatch: System Network Configuration Discovery</description>
+    <mitre>
+      <id>T1016</id>
+    </mitre>
+    <group>purplewatch_p0,discovery,</group>
+  </rule>
+
+</group>
