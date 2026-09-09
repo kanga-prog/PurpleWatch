@@ -12,6 +12,7 @@ secrets/
 credentials/
 
 # Python
+*.egg-info/
 .venv/
 venv/
 __pycache__/
