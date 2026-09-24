@@ -49,3 +49,7 @@ La démonstration live doit durer moins de trois minutes : vérifier l'agent, la
 ## Éléments de présentation
 
 Le support de soutenance est disponible dans [`presentation/`](../../presentation/). Ne pas intégrer de secrets, journaux bruts ni identifiants d'infrastructure.
+
+## Évolution vérifiée au 24 septembre 2026
+
+Les essais récents ont validé T1016 et T1087.001 sur Linux ainsi que T1059.004 (Execution) sur Linux. Voir [progression et journal normalisé](progression-2026-09-24/README.md). Ce jalon enrichit le dépôt historique ; le PDF et la présentation datés d'avant ce jalon demandent une mise à jour éditoriale avant d'être présentés comme état courant. Les métriques P50 et P95 ne sont pas encore établies.

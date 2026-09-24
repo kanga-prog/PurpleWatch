@@ -71,4 +71,44 @@
     <group>purplewatch_p0,discovery,</group>
   </rule>
 
+  <!-- PW-402 / T1016 Linux -->
+  <rule id="100106" level="6">
+    <if_sid>80700</if_sid>
+    <field name="audit.exe" type="pcre2">^/usr/bin/ip$</field>
+    <field name="audit.key">^purplewatch_execve$</field>
+    <description>PurpleWatch: System Network Configuration Discovery via ip</description>
+    <mitre>
+      <id>T1016</id>
+    </mitre>
+    <group>purplewatch_p0,discovery,</group>
+  </rule>
+
+  <!-- PW-402 / T1087.001 Linux -->
+  <rule id="100107" level="6">
+    <if_sid>80700</if_sid>
+    <field name="audit.exe" type="pcre2">^/usr/bin/getent$</field>
+    <field name="audit.key">^purplewatch_execve$</field>
+    <description>PurpleWatch: Local Account Discovery via getent</description>
+    <mitre>
+      <id>T1087.001</id>
+    </mitre>
+    <group>purplewatch_p0,discovery,</group>
+  </rule>
+
+  <!-- PW-402 / T1059.004 Linux: auditd grouped SYSCALL and EXECVE -->
+  <rule id="100108" level="6">
+    <if_sid>80700</if_sid>
+    <field name="audit.type">^SYSCALL$</field>
+    <field name="audit.exe">^/usr/bin/dash$</field>
+    <field name="audit.key">^purplewatch_execve$</field>
+    <field name="audit.execve.a0">^/bin/sh$</field>
+    <field name="audit.execve.a1">^-c$</field>
+    <match type="pcre2">a2=7072696E74662050572D54313035392D455845435554494F4E2D4F4B(?:\s|$)</match>
+    <description>PurpleWatch: Controlled Unix Shell Execution</description>
+    <mitre>
+      <id>T1059.004</id>
+    </mitre>
+    <group>purplewatch_p0,execution,</group>
+  </rule>
+
 </group>
