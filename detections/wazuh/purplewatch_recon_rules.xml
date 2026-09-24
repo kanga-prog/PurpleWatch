@@ -1,0 +1,14 @@
+<group name="purplewatch,correlation,">
+  <rule id="100112" level="10">
+    <decoded_as>json</decoded_as>
+    <field name="event_type">^purplewatch_recon_sequence$</field>
+    <field name="pw_source_agent_id">^002$</field>
+    <description>PurpleWatch: séquence de reconnaissance système sur PW-LINUX-01</description>
+    <mitre>
+      <id>T1082</id>
+      <id>T1057</id>
+      <id>T1016</id>
+    </mitre>
+    <group>purplewatch_p0,correlation,discovery,</group>
+  </rule>
+</group>

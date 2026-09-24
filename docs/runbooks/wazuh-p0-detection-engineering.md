@@ -127,3 +127,9 @@ Validated recovery points:
 Commit reviewed custom rules, runbooks, sanitized evidence, mappings, and hashes.
 
 Do not commit credentials, `client.keys`, raw Wazuh logs, malware, destructive tests, Atomic payloads, or private keys.
+
+## Addendum Linux — 24 septembre 2026
+
+Règles du dépôt `100106` (T1016, `ip`), `100107` (T1087.001, `getent`) et `100108` (T1059.004, shell contrôlé). Déploiement de la version examinée sur le manager puis `sudo /var/ossec/bin/wazuh-analysisd -t`, redémarrage du manager uniquement si valide, contrôle de service et retest Caldera.
+
+Le flux auditd de production regroupe SYSCALL et EXECVE ; pour T1059.004, la règle doit correspondre à l'événement principal SYSCALL et au marqueur hexadécimal du test dans `full_log`. Tester un événement EXECVE isolé avec `wazuh-logtest` ne suffit pas. Références : `docs/portfolio/progression-2026-09-24/`.

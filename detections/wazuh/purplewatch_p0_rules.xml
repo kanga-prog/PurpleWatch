@@ -1,4 +1,4 @@
-<group name="purplewatch,windows,sysmon,">
+<group name="purplewatch,p0,">
 
   <!-- PW-401 / T1082 -->
   <rule id="100100" level="6">
@@ -45,6 +45,107 @@
       <id>T1016</id>
     </mitre>
     <group>purplewatch_p0,discovery,</group>
+  </rule>
+
+  <!-- PW-402 / T1082 -->
+  <rule id="100104" level="6">
+    <if_sid>80700</if_sid>
+    <field name="audit.exe" type="pcre2">^/usr/bin/uname$</field>
+    <field name="audit.key">^purplewatch_execve$</field>
+    <description>PurpleWatch: System Information Discovery via uname</description>
+    <mitre>
+      <id>T1082</id>
+    </mitre>
+    <group>purplewatch_p0,discovery,</group>
+  </rule>
+
+  <!-- PW-402 / T1057 -->
+  <rule id="100105" level="6">
+    <if_sid>80700</if_sid>
+    <field name="audit.exe" type="pcre2">^/usr/bin/ps$</field>
+    <field name="audit.key">^purplewatch_execve$</field>
+    <description>PurpleWatch: Process Discovery via ps</description>
+    <mitre>
+      <id>T1057</id>
+    </mitre>
+    <group>purplewatch_p0,discovery,</group>
+  </rule>
+
+  <!-- PW-402 / T1016 Linux -->
+  <rule id="100106" level="6">
+    <if_sid>80700</if_sid>
+    <field name="audit.exe" type="pcre2">^/usr/bin/ip$</field>
+    <field name="audit.key">^purplewatch_execve$</field>
+    <description>PurpleWatch: System Network Configuration Discovery via ip</description>
+    <mitre>
+      <id>T1016</id>
+    </mitre>
+    <group>purplewatch_p0,discovery,</group>
+  </rule>
+
+  <!-- PW-402 / T1087.001 Linux -->
+  <rule id="100107" level="6">
+    <if_sid>80700</if_sid>
+    <field name="audit.exe" type="pcre2">^/usr/bin/getent$</field>
+    <field name="audit.key">^purplewatch_execve$</field>
+    <description>PurpleWatch: Local Account Discovery via getent</description>
+    <mitre>
+      <id>T1087.001</id>
+    </mitre>
+    <group>purplewatch_p0,discovery,</group>
+  </rule>
+
+  <!-- PW-402 / T1059.004 Linux: auditd grouped SYSCALL and EXECVE -->
+  <rule id="100108" level="6">
+    <if_sid>80700</if_sid>
+    <field name="audit.type">^SYSCALL$</field>
+    <field name="audit.exe">^/usr/bin/dash$</field>
+    <field name="audit.key">^purplewatch_execve$</field>
+    <field name="audit.execve.a0">^/bin/sh$</field>
+    <field name="audit.execve.a1">^-c$</field>
+    <match type="pcre2">a2=7072696E74662050572D54313035392D455845435554494F4E2D4F4B(?:\s|$)</match>
+    <description>PurpleWatch: Controlled Unix Shell Execution</description>
+    <mitre>
+      <id>T1059.004</id>
+    </mitre>
+    <group>purplewatch_p0,execution,</group>
+  </rule>
+
+  <rule id="100109" level="6">
+    <if_sid>80700</if_sid>
+    <field name="audit.type">^SYSCALL$</field>
+    <field name="audit.exe">^/usr/bin/cp$</field>
+    <field name="audit.key">^purplewatch_execve$</field>
+    <field name="audit.execve.a1">^-t$</field>
+    <field name="audit.execve.a2">^/var/lib/purplewatch/t1119/collected$</field>
+    <description>PurpleWatch: Controlled Automated Collection of Test Files</description>
+    <mitre><id>T1119</id></mitre>
+    <group>purplewatch_p0,collection,</group>
+  </rule>
+
+  <!-- PW-402 / T1036.005: isolated, harmless executable -->
+  <rule id="100110" level="6">
+    <if_sid>80700</if_sid>
+    <field name="audit.type">^SYSCALL$</field>
+    <field name="audit.exe">^/var/lib/purplewatch/t1036/systemd$</field>
+    <field name="audit.key">^purplewatch_execve$</field>
+    <description>PurpleWatch: Controlled Masquerading as systemd</description>
+    <mitre><id>T1036.005</id></mitre>
+    <group>purplewatch_p0,defense_evasion,</group>
+  </rule>
+
+  <!-- PW-402 / T1552.001: read-only access to decoy.env -->
+  <rule id="100111" level="6">
+    <if_sid>80700</if_sid>
+    <field name="audit.type">^SYSCALL$</field>
+    <field name="audit.syscall">^257$</field>
+    <field name="audit.success">^yes$</field>
+    <field name="audit.exe">^/usr/bin/cat$</field>
+    <field name="audit.key">^purplewatch_decoy_read$</field>
+    <field name="audit.file.name">^/var/lib/purplewatch/t1552/decoy\.env$</field>
+    <description>PurpleWatch: Controlled Access to Decoy Credential File</description>
+    <mitre><id>T1552.001</id></mitre>
+    <group>purplewatch_p0,credential_access,</group>
   </rule>
 
 </group>
