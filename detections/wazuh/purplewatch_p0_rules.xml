@@ -1,4 +1,4 @@
-<group name="purplewatch,windows,sysmon,">
+<group name="purplewatch,p0,">
 
   <!-- PW-401 / T1082 -->
   <rule id="100100" level="6">
@@ -43,6 +43,30 @@
     <description>PurpleWatch: System Network Configuration Discovery</description>
     <mitre>
       <id>T1016</id>
+    </mitre>
+    <group>purplewatch_p0,discovery,</group>
+  </rule>
+
+  <!-- PW-402 / T1082 -->
+  <rule id="100104" level="6">
+    <if_sid>80700</if_sid>
+    <field name="audit.exe" type="pcre2">^/usr/bin/uname$</field>
+    <field name="audit.key">^purplewatch_execve$</field>
+    <description>PurpleWatch: System Information Discovery via uname</description>
+    <mitre>
+      <id>T1082</id>
+    </mitre>
+    <group>purplewatch_p0,discovery,</group>
+  </rule>
+
+  <!-- PW-402 / T1057 -->
+  <rule id="100105" level="6">
+    <if_sid>80700</if_sid>
+    <field name="audit.exe" type="pcre2">^/usr/bin/ps$</field>
+    <field name="audit.key">^purplewatch_execve$</field>
+    <description>PurpleWatch: Process Discovery via ps</description>
+    <mitre>
+      <id>T1057</id>
     </mitre>
     <group>purplewatch_p0,discovery,</group>
   </rule>
