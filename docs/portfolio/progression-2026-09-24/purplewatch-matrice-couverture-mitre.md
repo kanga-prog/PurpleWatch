@@ -18,6 +18,9 @@ Cette matrice relie chaque émulation ATT&CK à sa télémétrie, à la règle W
 | T1016 — System Network Configuration Discovery | `PW-LINUX-01` | `/usr/sbin/ip addr show` ; ability `PW-T1016-Linux-NetworkConfig`, ID `d174545d-d59e-4363-87bc-578c7c19f832` | Premier essai : auditd `4444`, `exe=/usr/bin/ip`, `ppid=4388` (PID Caldera), clé `purplewatch_execve` ; télémétrie du retest à archiver | Règle `100106`, niveau 6, MITRE T1016 ; `wazuh-logtest` validé sur le SYSCALL brut | PASS de détection au retest ; corrélation PID du retest à compléter | 24/09 UTC+2 : Caldera `success` 00:43:44, PID affiché `5215` ; alerte Wazuh `100106` 00:43:47.794 ; écart affiché 3,794 s |
 | T1087.001 — Account Discovery: Local Account | `PW-LINUX-01` | `/usr/bin/getent passwd` ; ability `PW-T1087.001-Linux-LocalAccountDiscovery`, ID `1a85d811-8cfd-4d1c-a83e-b496214e7857` | Baseline auditd `1790205916.904:5388`, PID `5412`, PPID `5411` ; retest `1790207059.331:5466`, PID `5477`, PPID `5476` (Caldera), `exe=/usr/bin/getent`, clé `purplewatch_execve` | Règle `100107`, niveau 6, MITRE T1087.001 ; `wazuh-logtest` validé sur SYSCALL brut | PASS E2E ; ID d'alerte à archiver | 24/09 UTC+2 : Caldera retest `success` 01:44:17, PID `5476` ; auditd 01:44:19.331 ; alerte Wazuh `100107` 01:44:20.223 ; écart affiché 3,223 s, latence E2E non normalisée |
 | T1059.004 — Command and Scripting Interpreter: Unix Shell | `PW-LINUX-01` | `/bin/sh -c 'printf PW-T1059-EXECUTION-OK'` ; ability `PW-T1059.004-Linux-UnixShell` | auditd regroupe SYSCALL+EXECVE ; `/usr/bin/dash`, `purplewatch_execve`, marqueur `a2` hexadécimal | `100108`, niveau 6 | **PASS E2E — Execution** | Caldera `success` 24/09 02:42:37 UTC+2, PID `5807` ; Wazuh `100108` 02:42:49.269 UTC+2 ; écart affiché 12,269 s, latence exacte à confirmer |
+| T1119 — Automated Collection | `PW-LINUX-01` | `find` + `cp` sur deux fichiers `.txt` factices sous `/var/lib/purplewatch/t1119` | auditd find 13906 et cp 13907 (baseline), clé `purplewatch_execve` | `100109`, niveau 6 | **PASS de détection E2E — Collection** ; copies du retest à confirmer | Caldera `success` 24/09 09:59:22 UTC+2, PID 14993 ; Wazuh `100109` 09:59:51.355 ; écart affiché 29,355 s |
+| T1036.005 — Masquerading: Match Legitimate Resource Name or Location | `PW-LINUX-01` | copie inoffensive de `/usr/bin/true` nommée `/var/lib/purplewatch/t1036/systemd` | auditd baseline `1790237578.760:14175`, PPID 15121 | règle `100110`, niveau 6 | **PASS E2E — Defense Evasion** | Caldera 10:40:28 UTC+2, PID 15233 ; alerte 10:41:21.650, écart affiché 53,650 s |
+| T1552.001 — Unsecured Credentials: Credentials In Files | `PW-LINUX-01` | lecture de `/var/lib/purplewatch/t1552/decoy.env` contenant seulement une valeur factice | auditd baseline `1790239834.126:14400`, `openat` O_RDONLY, PPID 15288 | règle `100111`, niveau 6 | **PASS E2E — Credential Access** | Caldera 11:00:55 UTC+2, PID 15340 ; alerte 11:01:03.802, écart affiché 8,802 s |
 
 ## GAP et améliorations démontrés
 
@@ -43,3 +46,18 @@ Après reprise de `WazuhSvc` sur `PW-WIN11-01`, deux retests E2E Windows ont con
 | T1057 | `PW-T1057-Windows-ProcessDiscovery` | 19:09:31 | 19:09:47.526, règle `100101` | 16,526 s | PASS |
 
 Ces délais comprennent l'exécution Caldera, l'événement Sysmon, la transmission par l'agent Wazuh et l'analyse par le manager. Ils constituent la référence de démonstration, en remplacement de la mesure anormalement longue observée avant reprise de l'agent Wazuh.
+
+## Démonstration Linux du 24 septembre 2026
+
+| Tactique | Technique | Ability Linux | Règle Wazuh | État |
+|---|---|---|---|---|
+| Execution | T1059.004 | `PW-T1059.004-Linux-UnixShell` | 100108 | PASS |
+| Discovery | T1082 | `PW-T1082-Linux-OSInfo` | 100104 | PASS |
+| Discovery | T1057 | `PW-T1057-Linux-ProcessDiscovery` | 100105 | PASS |
+| Discovery | T1016 | `PW-T1016-Linux-NetworkConfig` | 100106 | PASS |
+| Discovery | T1087.001 | `PW-T1087.001-Linux-LocalAccountDiscovery` | 100107 | PASS |
+| Credential Access | T1552.001 | `PW-T1552.001-Linux-DecoyFileAccess` | 100111 | PASS, leurre fictif |
+| Collection | T1119 | `PW-T1119-Linux-AutomatedCollection` | 100109 | PASS, fichiers de test |
+| Defense Evasion | T1036.005 | `PW-T1036.005-Linux-Masquerading` | 100110 | PASS, binaire inoffensif |
+
+Deux opérations Caldera à plusieurs tactiques ont donné chacune 8/8 réussites et 8/8 alertes individuelles. Au deuxième passage, la règle automatique `100112` a corrélé T1082 → T1057 → T1016 sur l'agent source `002` en 86,045 s ; son alerte manager est horodatée 13:06:04.374 UTC+2. Sur cinq opérations de reconnaissance distinctes (n=15 alertes), latence événement auditd → alerte Wazuh : P50 0,874 s et P95 1,178 s, méthode du rang supérieur ; valeur exploratoire.

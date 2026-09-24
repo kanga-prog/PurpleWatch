@@ -111,4 +111,41 @@
     <group>purplewatch_p0,execution,</group>
   </rule>
 
+  <rule id="100109" level="6">
+    <if_sid>80700</if_sid>
+    <field name="audit.type">^SYSCALL$</field>
+    <field name="audit.exe">^/usr/bin/cp$</field>
+    <field name="audit.key">^purplewatch_execve$</field>
+    <field name="audit.execve.a1">^-t$</field>
+    <field name="audit.execve.a2">^/var/lib/purplewatch/t1119/collected$</field>
+    <description>PurpleWatch: Controlled Automated Collection of Test Files</description>
+    <mitre><id>T1119</id></mitre>
+    <group>purplewatch_p0,collection,</group>
+  </rule>
+
+  <!-- PW-402 / T1036.005: isolated, harmless executable -->
+  <rule id="100110" level="6">
+    <if_sid>80700</if_sid>
+    <field name="audit.type">^SYSCALL$</field>
+    <field name="audit.exe">^/var/lib/purplewatch/t1036/systemd$</field>
+    <field name="audit.key">^purplewatch_execve$</field>
+    <description>PurpleWatch: Controlled Masquerading as systemd</description>
+    <mitre><id>T1036.005</id></mitre>
+    <group>purplewatch_p0,defense_evasion,</group>
+  </rule>
+
+  <!-- PW-402 / T1552.001: read-only access to decoy.env -->
+  <rule id="100111" level="6">
+    <if_sid>80700</if_sid>
+    <field name="audit.type">^SYSCALL$</field>
+    <field name="audit.syscall">^257$</field>
+    <field name="audit.success">^yes$</field>
+    <field name="audit.exe">^/usr/bin/cat$</field>
+    <field name="audit.key">^purplewatch_decoy_read$</field>
+    <field name="audit.file.name">^/var/lib/purplewatch/t1552/decoy\.env$</field>
+    <description>PurpleWatch: Controlled Access to Decoy Credential File</description>
+    <mitre><id>T1552.001</id></mitre>
+    <group>purplewatch_p0,credential_access,</group>
+  </rule>
+
 </group>
